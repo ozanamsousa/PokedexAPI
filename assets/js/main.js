@@ -3,10 +3,8 @@ const loadMoreButton = document.getElementById('loadMoreButto')
 const limit = 5;
 let offset = 0;
 
-function loadPokemonItens(offset, limit){
-    pokeApi.getPokemons(offset, limit).then((pokemons = []) =>{
-        const newHtml = pokemons.map((pokemon) =>
-        `<li class="pokemon ${pokemon.type}">  
+function convertPokemonToLi(pokemon){
+   return `<li class="pokemon ${pokemon.type}">  
         <spam class="number">${pokemon.number}</spam>
         <spam class="name">${pokemon.name}</spam>
         <div class="details">
@@ -17,8 +15,11 @@ function loadPokemonItens(offset, limit){
         </div>
         <img src="${pokemon.photo}" alt="${pokemon.name}">
     </li>`
-    ).join('')
+}
 
+function loadPokemonItens(offset, limit){
+    pokeApi.getPokemons(offset, limit).then((pokemons = []) =>{
+        const newHtml = pokemons.map(convertPokemonToLi).join('')
     pokemonList.innerHTML += newHtml
 })
 }
